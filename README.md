@@ -1,6 +1,8 @@
 Description
 ===========
 
+[![Build Status](https://secure.travis-ci.org/realityforge/chef-logstash.png?branch=master)](http://travis-ci.org/realityforge/chef-logstash)
+
 Installs and configures Logstash (http://logstash.net/) agent with the jar.
 
 Attributes
