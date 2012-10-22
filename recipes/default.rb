@@ -51,7 +51,7 @@ template '/etc/init/logstash-agent.conf' do
   mode '0600'
   owner node['logstash']['user']
   group node['logstash']['group']
-  notifies :restart, 'service[logstash-agent]'
+  notifies :restart, resources(:service => 'logstash-agent'), :delayed
 end
 
 service 'logstash-agent' do
