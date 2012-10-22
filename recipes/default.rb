@@ -21,7 +21,6 @@ include_recipe "java"
   "#{node['logstash']['config_path']}",
   "#{node['logstash']['log_path']}"
 ].each do |dir|
-
   directory dir do
     owner "root"
     group "root"
