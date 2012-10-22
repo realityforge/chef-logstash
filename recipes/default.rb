@@ -17,9 +17,9 @@
 include_recipe "java"
 
 [
-  "#{node['logstash']['install_path']}",
-  "#{node['logstash']['config_path']}",
-  "#{node['logstash']['log_path']}"
+  node['logstash']['install_path'],
+  node['logstash']['config_path'],
+  node['logstash']['log_path']
 ].each do |dir|
   directory dir do
     owner "root"
