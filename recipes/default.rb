@@ -35,6 +35,7 @@ end
 [
   node['logstash']['install_path'],
   node['logstash']['config_path'],
+  node['logstash']['tmp_path'],
   node['logstash']['log_path']
 ].each do |dir|
   directory dir do

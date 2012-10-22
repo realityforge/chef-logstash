@@ -21,3 +21,4 @@ default['logstash']['listen_ports'] = []
 default['logstash']['install_path'] = '/usr/local/logstash'
 default['logstash']['config_path']  = '/etc/logstash'
 default['logstash']['log_path']     = '/var/log/logstash'
+default['logstash']['tmp_path']     = '/usr/local/logstash/tmp'
