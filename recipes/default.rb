@@ -16,22 +16,32 @@
 
 include_recipe "java"
 
+group node['logstash']['group'] do
+end
+
+user node['logstash']['user'] do
+  comment 'LogStash User'
+  gid node['logstash']['group']
+  home node['logstash']['base_dir']
+  shell '/bin/bash'
+end
+
 [
   node['logstash']['install_path'],
   node['logstash']['config_path'],
   node['logstash']['log_path']
 ].each do |dir|
   directory dir do
-    owner "root"
-    group "root"
+    owner node['logstash']['user']
+    group node['logstash']['group']
     mode 0755
   end
 end
 
 remote_file "#{node['logstash']['install_path']}/logstash.jar" do
   source node["logstash"]["package_url"]
-  owner "root"
-  group "root"
+  owner node['logstash']['user']
+  group node['logstash']['group']
   checksum node["logstash"]["package_checksum"]
   notifies :restart, "service[logstash-agent]"
 end
@@ -39,8 +49,8 @@ end
 template "/etc/init/logstash-agent.conf" do
   source "logstash-agent-upstart.conf.erb"
   mode "0644"
-  owner "root"
-  group "root"
+  owner node['logstash']['user']
+  group node['logstash']['group']
   notifies :restart, "service[logstash-agent]"
 end
 
