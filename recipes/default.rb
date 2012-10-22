@@ -48,7 +48,7 @@ end
 
 template '/etc/init/logstash-agent.conf' do
   source 'logstash-agent-upstart.conf.erb'
-  mode '0644'
+  mode '0600'
   owner node['logstash']['user']
   group node['logstash']['group']
   notifies :restart, 'service[logstash-agent]'
