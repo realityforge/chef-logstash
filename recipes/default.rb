@@ -26,7 +26,7 @@ user node['logstash']['user'] do
   shell '/bin/bash'
 end
 
-service 'logstash-agent' do
+service 'logstash' do
   provider Chef::Provider::Service::Upstart
   supports :status => true, :start => true, :stop => true, :restart => true
   action :nothing
