@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-default['logstash']['package_url'] = 'http://semicomplete.com/files/logstash/logstash-1.1.0-monolithic.jar'
+default['logstash']['package_url'] = 'http://databits.net/petef/tmp/logstash-1.1.1-pre-monolithic-jruby1.7.0pre1.jar'
 default['logstash']['user']      = 'logstash'
 default['logstash']['group']     = 'logstash'
 default['logstash']['listen_ports'] = []
