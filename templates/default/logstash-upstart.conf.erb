@@ -8,6 +8,12 @@ description     "Logstash"
 start on filesystem or runlevel [2345]
 stop on runlevel [!2345]
 
+# Increase default timeout before killing (on stop) to 10 seconds
+kill timeout 50
+
 setuid <%= node['logstash']['user'] %>
 setgid <%= node['logstash']['group'] %>
+respawn limit 15 5
+kill signal HUP
+
 exec java -jar <%= node['logstash']['install_path'] %>/logstash.jar agent --config <%= node['logstash']['config_path'] %> --log <%= node['logstash']['log_path'] %>/logstash.log
