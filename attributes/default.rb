@@ -18,6 +18,7 @@ default['logstash']['package_url'] = 'http://semicomplete.com/files/logstash/log
 default['logstash']['package_checksum'] = '6c9f491865b5eed569e029f6ad9f3343f346cfa04d04314e7aadea7b9578490f' # SHA256
 default['logstash']['user']      = 'logstash'
 default['logstash']['group']     = 'logstash'
+default['logstash']['listen_ports'] = []
 default['logstash']['install_path'] = '/usr/local/logstash'
 default['logstash']['config_path']  = '/etc/logstash'
 default['logstash']['log_path']     = '/var/log/logstash'
