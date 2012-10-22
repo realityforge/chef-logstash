@@ -16,11 +16,6 @@
 
 include_recipe "java"
 
-root_group = value_for_platform(
-  ["openbsd", "freebsd", "mac_os_x"] => {"default" => "wheel"},
-  "default" => "root"
-)
-
 [
   "#{node['logstash']['install_path']}",
   "#{node['logstash']['config_path']}",
@@ -29,7 +24,7 @@ root_group = value_for_platform(
 
   directory dir do
     owner "root"
-    group root_group
+    group "root"
     mode 0755
   end
 end
@@ -37,7 +32,7 @@ end
 remote_file "#{node['logstash']['install_path']}/logstash.jar" do
   source node["logstash"]["package_url"]
   owner "root"
-  group root_group
+  group "root"
   checksum node["logstash"]["package_checksum"]
   notifies :restart, "service[logstash-agent]"
 end
@@ -46,7 +41,7 @@ template "/etc/init/logstash-agent.conf" do
   source "logstash-agent-upstart.conf.erb"
   mode "0644"
   owner "root"
-  group root_group
+  group "root"
   notifies :restart, "service[logstash-agent]"
 end
 
