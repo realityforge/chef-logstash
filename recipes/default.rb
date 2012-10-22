@@ -26,6 +26,12 @@ user node['logstash']['user'] do
   shell '/bin/bash'
 end
 
+service 'logstash-agent' do
+  provider Chef::Provider::Service::Upstart
+  supports :status => true, :start => true, :stop => true, :restart => true
+  action :nothing
+end
+
 [
   node['logstash']['install_path'],
   node['logstash']['config_path'],
@@ -55,6 +61,5 @@ template '/etc/init/logstash-agent.conf' do
 end
 
 service 'logstash-agent' do
-  supports :status => true, :start => true, :stop => true, :restart => true
   action [:enable, :start]
 end
