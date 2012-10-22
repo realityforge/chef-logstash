@@ -49,17 +49,17 @@ remote_file "#{node['logstash']['install_path']}/logstash.jar" do
   owner node['logstash']['user']
   group node['logstash']['group']
   checksum node['logstash']['package_checksum']
-  notifies :restart, 'service[logstash-agent]'
+  notifies :restart, 'service[logstash]'
 end
 
-template '/etc/init/logstash-agent.conf' do
-  source 'logstash-agent-upstart.conf.erb'
+template '/etc/init/logstash.conf' do
+  source 'logstash-upstart.conf.erb'
   mode '0600'
   owner node['logstash']['user']
   group node['logstash']['group']
-  notifies :restart, resources(:service => 'logstash-agent'), :delayed
+  notifies :restart, resources(:service => 'logstash'), :delayed
 end
 
-service 'logstash-agent' do
+service 'logstash' do
   action [:enable, :start]
 end
