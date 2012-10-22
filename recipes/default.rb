@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-include_recipe "java"
+include_recipe 'java'
 
 group node['logstash']['group'] do
 end
@@ -39,22 +39,22 @@ end
 end
 
 remote_file "#{node['logstash']['install_path']}/logstash.jar" do
-  source node["logstash"]["package_url"]
+  source node['logstash']['package_url']
   owner node['logstash']['user']
   group node['logstash']['group']
-  checksum node["logstash"]["package_checksum"]
-  notifies :restart, "service[logstash-agent]"
+  checksum node['logstash']['package_checksum']
+  notifies :restart, 'service[logstash-agent]'
 end
 
-template "/etc/init/logstash-agent.conf" do
-  source "logstash-agent-upstart.conf.erb"
-  mode "0644"
+template '/etc/init/logstash-agent.conf' do
+  source 'logstash-agent-upstart.conf.erb'
+  mode '0644'
   owner node['logstash']['user']
   group node['logstash']['group']
-  notifies :restart, "service[logstash-agent]"
+  notifies :restart, 'service[logstash-agent]'
 end
 
-service "logstash-agent" do
+service 'logstash-agent' do
   supports :status => true, :start => true, :stop => true, :restart => true
   action [:enable, :start]
 end
