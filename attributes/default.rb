@@ -14,10 +14,8 @@
 # limitations under the License.
 #
 
-default["logstash"]["package_url"] = "http://semicomplete.com/files/logstash/logstash-1.1.0-monolithic.jar"
-# default["logstash"]["package_checksum"] = "357c01ae09aa4611e31347238d762729" MD5?
-default["logstash"]["package_checksum"] = "6c9f491865b5eed569e029f6ad9f3343f346cfa04d04314e7aadea7b9578490f" # SHA256
-
-default['logstash']['install_path'] = "/usr/local/logstash"
-default['logstash']['config_path']  = "/etc/logstash"
-default['logstash']['log_path']     = "/var/log/logstash"
+default['logstash']['package_url'] = 'http://semicomplete.com/files/logstash/logstash-1.1.0-monolithic.jar'
+default['logstash']['package_checksum'] = '6c9f491865b5eed569e029f6ad9f3343f346cfa04d04314e7aadea7b9578490f' # SHA256
+default['logstash']['install_path'] = '/usr/local/logstash'
+default['logstash']['config_path']  = '/etc/logstash'
+default['logstash']['log_path']     = '/var/log/logstash'
