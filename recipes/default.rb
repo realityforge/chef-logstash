@@ -34,7 +34,7 @@ end
   directory dir do
     owner node['logstash']['user']
     group node['logstash']['group']
-    mode 0755
+    mode 0700
   end
 end
 
