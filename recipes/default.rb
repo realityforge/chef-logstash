@@ -44,12 +44,16 @@ end
   end
 end
 
-remote_file "#{node['logstash']['install_path']}/logstash.jar" do
+digest = ::Digest::MD5.new
+digest.update(node['logstash']['package_url'])
+
+logstash_jar = "#{node['logstash']['install_path']}/logstash-#{digest.hexdigest}.jar"
+remote_file logstash_jar do
   source node['logstash']['package_url']
   owner node['logstash']['user']
   group node['logstash']['group']
-  checksum node['logstash']['package_checksum']
-  notifies :restart, 'service[logstash]'
+  mode '0600'
+  action :create_if_missing
 end
 
 template '/etc/init/logstash.conf' do
@@ -57,6 +61,7 @@ template '/etc/init/logstash.conf' do
   mode '0600'
   owner node['logstash']['user']
   group node['logstash']['group']
+  variables(:logstash_jar => logstash_jar)
   notifies :restart, resources(:service => 'logstash'), :delayed
 end
 

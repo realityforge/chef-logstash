@@ -17,7 +17,7 @@ respawn limit 15 5
 kill signal HUP
 
 pre-start script
-  test -f <%= node['logstash']['install_path'] %>/logstash.jar || { stop; exit 0; }
+  test -f <%= @logstash_jar %> || { stop; exit 0; }
   test -d <%= node['logstash']['config_path'] %> || { stop; exit 0; }
   test -d <%= node['logstash']['log_path'] %> || { stop; exit 0; }
 end script
