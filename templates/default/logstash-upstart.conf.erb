@@ -23,3 +23,35 @@ pre-start script
 end script
 
 exec <%= node['logstash']['listen_ports'].any? {|l| l <= 1024 } ? '/usr/bin/authbind --deep ' : '' %><%= node['java']['java_home'] %>/bin/java -jar <%= node['logstash']['install_path'] %>/logstash.jar agent --config <%= node['logstash']['config_path'] %> --log <%= node['logstash']['log_path'] %>/logstash.log
+
+# Uglies to wait until logstash is actually up before completion of the 'start'
+post-start script
+  <% node['logstash']['listen_ports'].sort.each do |listen_port| %>
+  while [ $(netstat -nl | grep -c '0.0.0.0:<%= listen_port %> ') -eq 0 ]
+  do
+      i=$(( $i + 1 ))
+      echo -n "."
+      if test $i -gt 60; then
+          echo "Error"
+          stop; exit 42
+      fi
+      sleep 1
+  done
+  <% end %>
+end script
+
+# Uglies to wait until logstash is actually up before completion of the 'stop'
+post-stop script
+  <% node['logstash']['listen_ports'].sort.each do |listen_port| %>
+  while [ $(netstat -nl | grep -c '0.0.0.0:<%= listen_port %> ') -ne 0 ]
+  do
+      i=$(( $i + 1 ))
+      echo -n "."
+      if test $i -gt 60; then
+          echo "Error"
+          stop; exit 42
+      fi
+      sleep 1
+  done
+  <% end %>
+end script
