@@ -24,6 +24,7 @@ user node['logstash']['user'] do
   gid node['logstash']['group']
   home node['logstash']['base_dir']
   shell '/bin/bash'
+  system true
 end
 
 service 'logstash' do
