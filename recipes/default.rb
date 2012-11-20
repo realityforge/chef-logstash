@@ -47,7 +47,13 @@ end
 digest = ::Digest::MD5.new
 digest.update(node['logstash']['package_url'])
 
-logstash_jar = "#{node['logstash']['install_path']}/logstash-#{digest.hexdigest}.jar"
+logstash_jar = "#{node['logstash']['install_path']}/#{digest.hexdigest}/#{::File.basename(node['logstash']['package_url'])}"
+directory ::File.dirname(logstash_jar) do
+  owner node['logstash']['user']
+  group node['logstash']['group']
+  mode '0700'
+end
+
 remote_file logstash_jar do
   source node['logstash']['package_url']
   owner node['logstash']['user']
