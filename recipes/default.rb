@@ -35,6 +35,7 @@ end
   node['logstash']['install_path'],
   node['logstash']['config_path'],
   node['logstash']['tmp_path'],
+  node['logstash']['pattern_path'],
   node['logstash']['log_path']
 ].each do |dir|
   directory dir do
@@ -70,6 +71,18 @@ template '/etc/init/logstash.conf' do
   group node['logstash']['group']
   variables(:logstash_jar => logstash_jar)
   notifies :restart, resources(:service => 'logstash'), :delayed
+end
+
+node['logstash']['patterns'].each_pair do |key, patterns|
+  content = patterns.sort.collect {|name, pattern| "#{name} #{pattern}" }
+  file "#{node['logstash']['pattern_path']}/#{key}" do
+    source 'agent.conf.erb'
+    owner node['logstash']['user']
+    group node['logstash']['group']
+    mode '0600'
+    content content
+    notifies :restart, 'service[logstash]'
+  end
 end
 
 service 'logstash' do
