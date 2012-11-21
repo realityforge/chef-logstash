@@ -1,0 +1,29 @@
+<%
+def section_to_str(output)
+  result = []
+  output.sort_by { |name, config| "#{config['seq'] || 0}#{name}" }.each do |name, config|
+    result << ''
+    result << "  #{name} {"
+    config.sort.select{|k,v| k != 'seq'}.each do |k, v|
+      key = k.class.to_s == 'Regex' ?  k.inspect : k.to_s
+      value = (["Hash", "Mash"].include?(v.class.to_s) ? v.to_a.flatten : v).inspect
+      result << "    #{key} => #{value}"
+    end
+    result << '  }'
+  end
+  result.join("\n")
+end
+-%>
+input {
+  <%= section_to_str(@config['inputs']) %>
+}
+
+<% if @config['filters'] -%>
+filter {
+  <%= section_to_str(@config['filters']) %>
+}
+
+<% end -%>
+output {
+  <%= section_to_str(@config['outputs']) %>
+}

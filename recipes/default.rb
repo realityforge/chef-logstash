@@ -85,6 +85,20 @@ node['logstash']['patterns'].each_pair do |key, patterns|
   end
 end
 
+node['logstash']['config'].each_pair do |key, config|
+  raise "config['inputs'] must be specified for #{key}" unless config['inputs']
+  raise "config['outputs'] must be specified for #{key}" unless config['outputs']
+
+  template "#{node['logstash']['config_path']}/#{key}.conf" do
+    source 'agent.conf.erb'
+    owner node['logstash']['user']
+    group node['logstash']['group']
+    mode '0600'
+    variables(:config => config)
+    notifies :restart, 'service[logstash]'
+  end
+end
+
 service 'logstash' do
   action [:enable, :start]
 end

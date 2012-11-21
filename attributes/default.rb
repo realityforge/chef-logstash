@@ -26,3 +26,4 @@ default['logstash']['xmx'] = '1024M'
 default['logstash']['java_opts'] = ''
 default['logstash']['gc_opts'] = '-XX:+UseParallelOldGC'
 default['logstash']['patterns'] = Mash.new
+default['logstash']['configs'] = Mash.new
