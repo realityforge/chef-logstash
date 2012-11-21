@@ -15,6 +15,7 @@ setuid <%= node['logstash']['user'] %>
 setgid <%= node['logstash']['group'] %>
 respawn limit 15 5
 kill signal HUP
+umask 0077
 
 pre-start script
   test -f <%= @logstash_jar %> || { stop; exit 0; }
