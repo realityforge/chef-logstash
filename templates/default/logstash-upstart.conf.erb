@@ -23,15 +23,13 @@ pre-start script
 end script
 
 <%
-   use_authbind = node['logstash']['listen_ports'].any? {|l| l <= 1024 }
-
    args = []
    args << '-server'
    args << "-Xms#{node['logstash']['xms']}"
    args << "-Xmx#{node['logstash']['xmx']}"
    args << node['logstash']['java_opts'] if node['logstash']['java_opts']
    args << node['logstash']['gc_opts'] if node['logstash']['gc_opts']
-   args << '-Djava.net.preferIPv4Stack=true' if use_authbind
+   args << '-Djava.net.preferIPv4Stack=true' if node['logstash']['authbind_enable']
    args << "-Djava.io.tmpdir=#{node['logstash']['tmp_path']}"
    args << '-jar'
    args << @logstash_jar
@@ -42,36 +40,4 @@ end script
    args << "#{node['logstash']['log_path']}/logstash.log"
 %>
 
-exec <%= use_authbind ? '/usr/bin/authbind --deep ' : '' %><%= node['java']['java_home'] %>/bin/java <%= args.join(' ') %>
-
-# Uglies to wait until logstash is actually up before completion of the 'start'
-post-start script
-  <% node['logstash']['listen_ports'].sort.each do |listen_port| %>
-  while [ $(netstat -nl | grep -c '0.0.0.0:<%= listen_port %> ') -eq 0 ]
-  do
-      i=$(( $i + 1 ))
-      echo -n "."
-      if test $i -gt 60; then
-          echo "Error"
-          stop; exit 42
-      fi
-      sleep 1
-  done
-  <% end %>
-end script
-
-# Uglies to wait until logstash is actually up before completion of the 'stop'
-post-stop script
-  <% node['logstash']['listen_ports'].sort.each do |listen_port| %>
-  while [ $(netstat -nl | grep -c '0.0.0.0:<%= listen_port %> ') -ne 0 ]
-  do
-      i=$(( $i + 1 ))
-      echo -n "."
-      if test $i -gt 60; then
-          echo "Error"
-          stop; exit 42
-      fi
-      sleep 1
-  done
-  <% end %>
-end script
+exec <%= node['logstash']['authbind_enable'] ? '/usr/bin/authbind --deep ' : '' %><%= node['java']['java_home'] %>/bin/java <%= args.join(' ') %>

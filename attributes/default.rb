@@ -15,7 +15,7 @@
 default['logstash']['package_url'] = 'https://logstash.objects.dreamhost.com/release/logstash-1.1.5-monolithic.jar'
 default['logstash']['user']      = 'logstash'
 default['logstash']['group']     = 'logstash'
-default['logstash']['listen_ports'] = []
+default['logstash']['authbind_enable'] = false
 default['logstash']['install_path'] = '/usr/local/logstash'
 default['logstash']['config_path']  = '/etc/logstash'
 default['logstash']['log_path']     = '/var/log/logstash'

@@ -7,3 +7,5 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.0.1'
 
 depends 'java'
+# Required if any of the ports listened to are below 1024
+recommends 'authbind'
