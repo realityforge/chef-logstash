@@ -41,6 +41,7 @@ end
     owner node['logstash']['user']
     group node['logstash']['group']
     mode '0700'
+    recursive true
   end
 end
 
