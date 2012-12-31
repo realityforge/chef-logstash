@@ -70,7 +70,7 @@ template '/etc/init/logstash.conf' do
   owner node['logstash']['user']
   group node['logstash']['group']
   variables(:logstash_jar => logstash_jar)
-  notifies :restart, resources(:service => 'logstash'), :delayed
+  notifies :restart, 'service[logstash]', :delayed
 end
 
 node['logstash']['patterns'].each_pair do |key, patterns|
