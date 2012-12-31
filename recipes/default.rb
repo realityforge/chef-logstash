@@ -75,7 +75,7 @@ end
 
 node['logstash']['patterns'].each_pair do |key, patterns|
   content = patterns.sort.collect {|name, pattern| "#{name} #{pattern}" }
-  file "#{node['logstash']['pattern_path']}/#{key}" do
+  template "#{node['logstash']['pattern_path']}/#{key}" do
     source 'agent.conf.erb'
     owner node['logstash']['user']
     group node['logstash']['group']
