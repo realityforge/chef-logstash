@@ -50,6 +50,16 @@ digest = ::Digest::MD5.new
 digest.update(node['logstash']['package_url'])
 
 logstash_jar = "#{node['logstash']['install_path']}/#{digest.hexdigest}/#{::File.basename(node['logstash']['package_url'])}"
+
+package 'unzip'
+
+bash 'extract_logstash_patterns' do
+  user node['logstash']['user']
+  group node['logstash']['group']
+  code "unzip -j -o #{logstash_jar} 'patterns/*' -d #{node['logstash']['pattern_path']}"
+  action :nothing
+end
+
 directory ::File.dirname(logstash_jar) do
   owner node['logstash']['user']
   group node['logstash']['group']
@@ -62,6 +72,7 @@ remote_file logstash_jar do
   group node['logstash']['group']
   mode '0600'
   action :create_if_missing
+  notifies :run, 'bash[extract_logstash_patterns]', :delayed
 end
 
 template '/etc/init/logstash.conf' do
