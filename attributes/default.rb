@@ -12,7 +12,7 @@
 # limitations under the License.
 #
 
-default['logstash']['package_url'] = 'https://logstash.objects.dreamhost.com/release/logstash-1.1.5-monolithic.jar'
+default['logstash']['package_url'] = 'https://logstash.objects.dreamhost.com/release/logstash-1.1.10-flatjar.jar'
 default['logstash']['user'] = 'logstash'
 default['logstash']['group'] = 'logstash'
 default['logstash']['authbind_enable'] = false
