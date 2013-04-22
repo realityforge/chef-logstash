@@ -13,14 +13,14 @@
 #
 
 default['logstash']['package_url'] = 'https://logstash.objects.dreamhost.com/release/logstash-1.1.5-monolithic.jar'
-default['logstash']['user']      = 'logstash'
-default['logstash']['group']     = 'logstash'
+default['logstash']['user'] = 'logstash'
+default['logstash']['group'] = 'logstash'
 default['logstash']['authbind_enable'] = false
 default['logstash']['install_path'] = '/usr/local/logstash'
-default['logstash']['config_path']  = '/usr/local/logstash/config'
+default['logstash']['config_path'] = '/usr/local/logstash/config'
 default['logstash']['pattern_path'] = '/usr/local/logstash/patterns'
-default['logstash']['log_path']     = '/usr/local/logstash/log'
-default['logstash']['tmp_path']     = '/usr/local/logstash/tmp'
+default['logstash']['log_path'] = '/usr/local/logstash/log'
+default['logstash']['tmp_path'] = '/usr/local/logstash/tmp'
 default['logstash']['xms'] = '1024M'
 default['logstash']['xmx'] = '1024M'
 default['logstash']['java_opts'] = ''
